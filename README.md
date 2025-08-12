@@ -7,3 +7,5 @@ spring.mvc.pathmatch.matching-strategy=ANT_PATH_MATCHER
 
 
 Swagger is available at ```(baseUrl)/swagger-ui/index.html```
+
+<pre>NOTE: this project was build using Java 21</pre>
