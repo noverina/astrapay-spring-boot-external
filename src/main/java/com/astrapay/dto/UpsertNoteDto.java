@@ -8,5 +8,6 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpsertNoteDto {
+    private String title;
     private String content;
 }

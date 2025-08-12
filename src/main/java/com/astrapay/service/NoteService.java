@@ -25,7 +25,7 @@ public class NoteService {
 
     public void insert(UpsertNoteDto dto) {
         String id = idGenerator.generate();
-        Note entity = new Note(id, dto.getContent());
+        Note entity = new Note(id, dto.getTitle(), dto.getContent());
         memoryStore.save(id, entity);
     }
 

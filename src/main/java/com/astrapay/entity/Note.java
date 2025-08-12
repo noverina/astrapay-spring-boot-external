@@ -15,12 +15,14 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Note {
     private String id;
+    private String title;
     private String content;
     private ZonedDateTime createdAt;
 
 
-    public Note(String id, String content) {
+    public Note(String id, String title, String content) {
         this.id = id;
+        this.title = title;
         this.content = content;
         this.createdAt = ZonedDateTime.now(ZoneId.of("UTC"));
     }
