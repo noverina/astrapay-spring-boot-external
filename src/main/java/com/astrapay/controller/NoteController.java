@@ -1,6 +1,7 @@
 package com.astrapay.controller;
 
 import com.astrapay.dto.HttpResponseDto;
+import com.astrapay.dto.NoteListDto;
 import com.astrapay.dto.UpsertNoteDto;
 import com.astrapay.entity.Note;
 import com.astrapay.service.NoteService;
@@ -30,8 +31,8 @@ public class NoteController {
     @Operation(summary = "Get all notes")
     @GetMapping
     public ResponseEntity<HttpResponseDto<?>> getAll(@Parameter(description = "IANA format") @RequestParam String timezone) {
-        List<Note> result = service.getAll(timezone);
-        HttpResponseDto<List<Note>> httpRes = new HttpResponseDto<>(false, "", result);
+        List<NoteListDto> result = service.getAll(timezone);
+        HttpResponseDto<List<NoteListDto>> httpRes = new HttpResponseDto<>(false, "", result);
         return new ResponseEntity<>(httpRes, HttpStatus.OK);
     }
 

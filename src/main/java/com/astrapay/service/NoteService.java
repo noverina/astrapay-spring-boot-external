@@ -1,5 +1,6 @@
 package com.astrapay.service;
 
+import com.astrapay.dto.NoteListDto;
 import com.astrapay.dto.UpsertNoteDto;
 import com.astrapay.entity.Note;
 import com.astrapay.exception.EntityNotFoundException;
@@ -39,17 +40,17 @@ public class NoteService {
         memoryStore.delete(id);
     }
 
-    public List<Note> getAll(String timezone) {
+    public List<NoteListDto> getAll(String timezone) {
         Collection<Object> objectsFromStore = memoryStore.getAll();
-        List<Note> notes = new ArrayList<>();
+        List<NoteListDto> notes = new ArrayList<>();
         for (Object obj : objectsFromStore) {
             if (!(obj instanceof Note)) {
                 throw new InvalidClassException("Expected Note.class, instead found" + obj.getClass());
             }
             Note note = (Note) obj;
             ZoneId requestedZone = ZoneId.of(timezone);
-            note.setCreatedAt(note.getCreatedAt().withZoneSameInstant(requestedZone));
-            notes.add(note);
+            NoteListDto dto = new NoteListDto(note.getTitle(), note.getContent(), note.getCreatedAt().withZoneSameInstant(requestedZone));
+            notes.add(dto);
         }
         return notes;
     }

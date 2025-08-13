@@ -1,18 +1,18 @@
 package com.astrapay.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.ZonedDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class HttpResponseDto<T> {
-    @JsonProperty("isError")
-    private boolean isError;
-    private String message;
-    private T data;
+public class NoteListDto {
+    private String title;
+    private String content;
+    private ZonedDateTime createdAt;
 }
