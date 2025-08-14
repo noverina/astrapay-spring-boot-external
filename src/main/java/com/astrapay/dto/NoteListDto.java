@@ -12,6 +12,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoteListDto {
+    private String id;
     private String title;
     private String content;
     private ZonedDateTime createdAt;

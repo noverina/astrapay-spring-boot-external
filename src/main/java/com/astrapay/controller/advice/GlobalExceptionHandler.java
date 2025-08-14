@@ -3,6 +3,7 @@ package com.astrapay.controller.advice;
 import com.astrapay.dto.HttpResponseDto;
 import com.astrapay.exception.EntityNotFoundException;
 import com.astrapay.exception.InvalidClassException;
+import com.astrapay.exception.InvalidFieldException;
 import com.astrapay.util.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,12 @@ public class GlobalExceptionHandler {
         HttpResponseDto<String> resEntity = new HttpResponseDto<String>(true, ex.getMessage(), null);
         logUtil.error(ex);
         return new ResponseEntity<>(resEntity, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(InvalidFieldException.class)
+    public ResponseEntity<HttpResponseDto<String>> handleInvalidFieldException(Exception ex) {
+        HttpResponseDto<String> resEntity = new HttpResponseDto<String>(true, ex.getMessage(), null);
+        logUtil.error(ex);
+        return new ResponseEntity<>(resEntity, HttpStatus.BAD_REQUEST);
     }
 }

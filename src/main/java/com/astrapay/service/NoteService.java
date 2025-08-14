@@ -5,6 +5,7 @@ import com.astrapay.dto.UpsertNoteDto;
 import com.astrapay.entity.Note;
 import com.astrapay.exception.EntityNotFoundException;
 import com.astrapay.exception.InvalidClassException;
+import com.astrapay.exception.InvalidFieldException;
 import com.astrapay.util.MemoryStoreUtil;
 import com.astrapay.util.UuidV6Generator;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,19 @@ import java.util.List;
 @Service
 @Slf4j
 public class NoteService {
+    private final UuidV6Generator idGenerator;
+    private final MemoryStoreUtil memoryStore;
+
     @Autowired
-    private MemoryStoreUtil memoryStore;
-    @Autowired
-    private UuidV6Generator idGenerator;
+    public NoteService(UuidV6Generator idGenerator, MemoryStoreUtil memoryStore) {
+        this.idGenerator = idGenerator;
+        this.memoryStore = memoryStore;
+    }
 
     public void insert(UpsertNoteDto dto) {
+        if (dto.getTitle() == null || dto.getContent() == null || dto.getTitle().length() < 3 || dto.getTitle().length()> 30 || dto.getContent().length() < 3 || dto.getContent().length() > 500) {
+            throw new InvalidFieldException("Unable to create note, invalid field detected");
+        }
         String id = idGenerator.generate();
         Note entity = new Note(id, dto.getTitle(), dto.getContent());
         memoryStore.save(id, entity);
@@ -49,7 +57,7 @@ public class NoteService {
             }
             Note note = (Note) obj;
             ZoneId requestedZone = ZoneId.of(timezone);
-            NoteListDto dto = new NoteListDto(note.getTitle(), note.getContent(), note.getCreatedAt().withZoneSameInstant(requestedZone));
+            NoteListDto dto = new NoteListDto(note.getId(), note.getTitle(), note.getContent(), note.getCreatedAt().withZoneSameInstant(requestedZone));
             notes.add(dto);
         }
         return notes;
